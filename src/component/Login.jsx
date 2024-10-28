@@ -1,59 +1,60 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [welcomeMessage, setWelcomeMessage] = useState('');
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setError("");
-    setSuccessMessage("");
+    setError('');
+    setWelcomeMessage('');
 
-    if (!username || !password) {
-      setError("Username and password must not be empty.");
+    if (!username) {
+      setError('Username is required');
       return;
     }
 
-    if (username === "user" && password === "password") {
-      setSuccessMessage("Login successful! Welcome!");
+    if (!password) {
+      setError('Password is required');
+      return;
+    }
+
+    // Dummy login validation
+    if (username === 'user' && password === 'password') {
+      setWelcomeMessage(`Welcome, ${username}`);
     } else {
-      setError("Login failed. Invalid username or password.");
+      setError('Invalid username or password');
     }
   };
 
   return (
     <div>
-      <h2>Login Page</h2>
-      {successMessage ? (
-        <p>{successMessage}</p>
-      ) : (
-        <>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <form onSubmit={handleLogin}>
-            <div>
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button type="submit">Login</button>
-          </form>
-        </>
-      )}
+      <form onSubmit={handleLogin}>
+        <label>
+          Username
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Password
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <br />
+        <button type="submit">Login</button>
+      </form>
+
+      {error && <p>{error}</p>}
+      {welcomeMessage && <p>{welcomeMessage}</p>}
     </div>
   );
 };
