@@ -17,7 +17,7 @@ const Login = () => {
     }
 
     if (username === "user" && password === "password") {
-      setSuccessMessage("Login successful! Welcome!");
+      setSuccessMessage("Welcome, user");
     } else {
       setError("Login failed. Invalid username or password.");
     }
