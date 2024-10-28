@@ -3,52 +3,57 @@ import React, { useState } from "react";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
+    setError("");
+    setSuccessMessage("");
+
+    if (!username || !password) {
+      setError("Username and password must not be empty.");
+      return;
+    }
+
     if (username === "user" && password === "password") {
-      setMessage("Welcome, user!");
-      setIsLoggedIn(true);
+      setSuccessMessage("Login successful! Welcome!");
     } else {
-      setMessage("Invalid username or password");
-      setIsLoggedIn(false);
+      setError("Login failed. Invalid username or password.");
     }
   };
 
   return (
     <div>
-      <h1>Login Page</h1>
-      {!isLoggedIn && message === "Invalid username or password" && (
-        <p>{message}</p>
+      <h2>Login Page</h2>
+      {successMessage ? (
+        <p>{successMessage}</p>
+      ) : (
+        <>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <form onSubmit={handleLogin}>
+            <div>
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit">Login</button>
+          </form>
+        </>
       )}
-      {!isLoggedIn && (
-        <form onSubmit={handleSubmit}>
-          <label>
-            Username:
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </label>
-          <br />
-          <label>
-            Password:
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
-          <br />
-          <button type="submit">Submit</button>
-        </form>
-      )}
-      {isLoggedIn && <p>{message}</p>}
     </div>
   );
 };
